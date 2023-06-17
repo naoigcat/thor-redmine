@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 require "bundler"
 Bundler.require
-
-require_relative "lib/export.rb"
+Pathname.glob("lib/**.rb").each(&method(:load))
 
 Entrypoint.start
