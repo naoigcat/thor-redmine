@@ -82,7 +82,7 @@ class Entrypoint < Thor
   end
   no_commands do
     def get(uri)
-      puts "=> #{uri.sub(/#{ENV["ACCESS_KEY"]}/, "********")}"
+      puts "=> #{uri.sub(/#{ENV["API_KEY"]}/, "********")}"
       Hashie::Mash.new(JSON.parse(Net::HTTP.get(URI.parse(uri)))).tap do
         sleep 1
       end
