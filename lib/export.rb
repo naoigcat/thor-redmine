@@ -1,8 +1,8 @@
 class Entrypoint < Thor
   desc "export", "Export issues to Google Sheets"
-  def export
+  def export # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     session = GoogleDrive::Session.from_service_account_key(".key.json")
-    spreadsheet = session.spreadsheet_by_key(ENV["SHEETS_KEY"])
+    spreadsheet = session.spreadsheet_by_key(ENV.fetch("SHEETS_KEY"))
     worksheet = spreadsheet.worksheet_by_title("issues")
     if worksheet.num_rows.zero?
       %w[
@@ -33,8 +33,8 @@ class Entrypoint < Thor
         worksheet[1, index] = header
       end
     end
-    endpoint = ENV["API_ENDPOINT"]
-    key = ENV["API_KEY"]
+    endpoint = ENV.fetch("API_ENDPOINT")
+    key = ENV.fetch("API_KEY")
     issues = loop.reduce([[], 0]) do |(memo, offset), _|
       res = get("#{endpoint}/issues.json?key=#{key}&status_id=*&offset=#{offset}&limit=100")
       memo.concat(res.issues)
@@ -73,8 +73,8 @@ class Entrypoint < Thor
         journal.notes&.empty?
       end.map do |journal|
         <<~JOURNAL
-        By #{journal.user&.name} On #{journal.created_on}
-        #{journal.notes}
+          By #{journal.user&.name} On #{journal.created_on}
+          #{journal.notes}
         JOURNAL
       end.join("\n").chomp
     end
@@ -82,7 +82,7 @@ class Entrypoint < Thor
   end
   no_commands do
     def get(uri)
-      puts "=> #{uri.sub(/#{ENV["API_KEY"]}/, "********")}"
+      puts "=> #{uri.sub(/#{ENV.fetch("API_KEY")}/, "********")}"
       Hashie::Mash.new(JSON.parse(Net::HTTP.get(URI.parse(uri)))).tap do
         sleep 1
       end
