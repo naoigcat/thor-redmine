@@ -58,10 +58,10 @@ GEM
       base64
     memoist (0.16.2)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.7)
+    mini_portile2 (2.8.8)
     multi_json (1.15.0)
     multipart-post (2.4.1)
-    nokogiri (1.16.7)
+    nokogiri (1.18.3)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     os (1.1.4)
