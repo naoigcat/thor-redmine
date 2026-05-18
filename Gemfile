@@ -1,4 +1,5 @@
 source "https://rubygems.org"
-gem "google_drive"
+gem "google_drive_maintained", require: "google_drive"
 gem "hashie"
+gem "jwt"
 gem "thor"
